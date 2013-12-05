@@ -127,7 +127,8 @@ module RailsAdminImport
     
           results
         rescue Exception => e
-          logger.info "#{Time.now.to_s}: Unknown exception in import: #{e.inspect}"
+          # NOTE:logger is not yet...X(
+          #logger.info "#{Time.now.to_s}: Unknown exception in import: #{e.inspect}"
           return results = { :success => [], :error => ["Could not upload. Unexpected error: #{e.to_s}"] }
         end
       end
@@ -144,7 +145,7 @@ module RailsAdminImport
         end 
 
         if item.nil?
-          item = self.new(new_attrs)
+          item = self.new(new_attrs, as: :admin)
         else
           item.attributes = new_attrs.except(update.to_sym)
           item.save
